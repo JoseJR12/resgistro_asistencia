@@ -40,7 +40,7 @@ def index():
 
         return redirect('/')
 
-    return render_template('index.html')
+    return render_template('index.html')  # Asegúrate de que este archivo esté en la carpeta 'templates'
 
 if __name__ == '__main__':
     app.run(debug=True)
