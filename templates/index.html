@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de Asistencia</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-100 via-white to-blue-50 min-h-screen flex items-center justify-center font-sans">
+
+  <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-200">
+    <!-- Encabezado -->
+    <div class="flex items-center gap-3 mb-6">
+      <div class="bg-blue-100 text-blue-600 p-2 rounded-full">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <h1 class="text-2xl font-bold text-gray-800">Registro de Asistencia</h1>
+    </div>
+
+    <!-- Formulario -->
+    <form id="asistenciaForm" action="/" method="POST" class="space-y-5">
+      <div>
+        <label for="dni" class="block text-sm font-medium text-gray-700 mb-1">DNI del estudiante</label>
+        <input
+          type="text"
+          name="dni"
+          id="dni"
+          placeholder="Ingrese DNI"
+          required
+          maxlength="8"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium transition"
+      >
+        Registrar Asistencia
+      </button>
+    </form>
+
+    <!-- Mensajes Flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="mt-6 space-y-2">
+          {% for category, message in messages %}
+            <div class="p-3 rounded-lg text-sm font-medium
+              {% if category == 'success' %}
+                bg-green-100 text-green-800
+              {% else %}
+                bg-red-100 text-red-800
+              {% endif %}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <!-- Validación y confirmación -->
+  <script>
+    document.getElementById('asistenciaForm').addEventListener('submit', function(event) {
+      const dni = document.getElementById('dni').value.trim();
+
+      // Validar que tenga 8 dígitos
+      if (!/^\d{8}$/.test(dni)) {
+        alert('El DNI debe tener exactamente 8 dígitos.');
+        event.preventDefault();
+        return;
+      }
+
+      if (!confirm(`¿Registrar asistencia para el DNI ${dni}?`)) {
+        event.preventDefault();
+      }
+    });
+
+    // Ocultar mensajes flash automáticamente
+    setTimeout(() => {
+      document.querySelectorAll('.bg-green-100, .bg-red-100').forEach(el => {
+        el.style.display = 'none';
+      });
+    }, 4000);
+  </script>
+
+</body>
+</html>
