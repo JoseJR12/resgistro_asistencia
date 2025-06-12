@@ -13,7 +13,6 @@ def index():
         dni = request.form['dni'].strip()
 
         try:
-            # Usa ; como separador y limpia columnas
             df = pd.read_csv(CSV_PATH, sep=';', dtype={'dni': str})
             df.columns = df.columns.str.strip().str.lower()
         except FileNotFoundError:
@@ -34,13 +33,13 @@ def index():
             laboratorio = estudiante.iloc[0]['laboratorio']
 
             df.at[index, 'asistio'] = 'Sí asistió al Examen General 2025-2'
-            df.to_csv(CSV_PATH, index=False, sep=';')  # Guarda con el mismo separador
+            df.to_csv(CSV_PATH, index=False, sep=';')
 
             flash(f"{nombre_completo} se registró correctamente. Le corresponde el {laboratorio}.", "success")
 
         return redirect('/')
 
-    return render_template('index.html')  # Asegúrate de que este archivo esté en la carpeta 'templates'
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
